@@ -47,3 +47,20 @@ export async function uploadFile(presignedUrl: string, file: Uint8Array){
 
     return res;
 }
+
+export async function compressFile(url: string){
+
+    const headers = {
+        'x-api-key': API_KEY,
+    };
+
+    const params = {
+        url,
+      };
+
+    const res = axios.post('https://api.pdf.co/v1/pdf/optimize', params, {
+        headers
+    })
+
+    return res;
+}

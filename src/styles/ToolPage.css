@@ -1,0 +1,70 @@
+.toolPage{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.toolPageTitle{
+    margin: auto;
+    margin-top: 20px;
+    font-size: 3em;
+}
+
+.toolPageButtons{
+    margin: auto;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.toolPageChangeFile{
+    width: 300px;
+    height: 70px;
+    border: none;
+    outline: none;
+    background-color: rgb(255, 47, 47);
+    color: white;
+    font-size: 2em;
+    border-radius: 10px;
+}
+
+.toolPageButtonType{
+    height: 70px;
+    width: 70px;
+    background-color: rgb(255, 47, 47);
+    color: white;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    margin-left: 10px;
+}
+
+.toolPagePlaceInput{
+    width: 300px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+}
+
+.toolPageInputURL{
+    width: 90%;
+    height: 45%;
+    outline: none;
+    border: 1px gray solid;
+    border-radius: 10px;
+    margin: auto;
+    margin-bottom: auto;
+}
+
+.toolPageInputSubmit{
+    width: 40%;
+    height: 45%;
+    outline: none;
+    border: none;
+    margin: auto;
+    margin-top: auto;
+    background-color: rgb(255, 47, 47);
+    border-radius: 10px;
+    color: white;
+    font-size: 1em;
+}

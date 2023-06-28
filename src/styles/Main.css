@@ -1,0 +1,38 @@
+.Main{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mainTextPlace{
+    background-color: rgb(253, 89, 89);
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+}
+
+.mainTitle{
+    font-size: 30px;
+    font-weight: bold;
+    margin: auto;
+    text-align: center;
+    color: white;
+}
+
+.mainDiscription{
+    font-size: 15px;
+    margin: auto;
+    margin-bottom: 70px;
+    text-align: center;
+    color: white;
+}
+
+.mainGridTools{
+    position: relative;
+    top: -50px;
+
+    margin-inline: 30px;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    box-shadow: 0px 0px 3px #636363;
+}

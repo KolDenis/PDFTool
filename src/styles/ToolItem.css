@@ -1,0 +1,11 @@
+.ToolItem{
+    padding: 30px;
+    text-decoration: none;
+    color: black;
+    font-size: 1.2em;
+    background-color: white;
+}
+
+.toolImg{
+    width: 50px;
+}
