@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
+import axios from 'axios';
 import './App.css';
+import useUploadFile from './hooks/useUploadFile';
+
+const API_KEY = 'kolotseidenis@gmail.com_3ca171f94542e1471c19008d0d6be9e2fdb516915ec421e3e9b92774881efb3fccb3dd2a';
 
 function App() {
+  const [loadFile, url, uploading, failed, error] = useUploadFile();
+
+  const changeFile = (event: any) => {
+    const file = event.target.files[0];
+    loadFile(file);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{error}</h1>
+      <input type="file" onChange={changeFile}/>
+      {
+        uploading? 
+        <h1>Loadin...</h1>:
+        <a href={url}>Load</a>
+      }
     </div>
   );
 }
