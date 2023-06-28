@@ -3,8 +3,7 @@ import { generateLink, uploadFile } from '../pdfAPI';
 
 function useUploadFile()
 {
-    const [error, setError] = useState<any>();
-    const [failed, setFailed] = useState<boolean>(false);
+    const [error, setError] = useState<any>(null);
 
     const [loadedFile, setloadedFile] = useState<Uint8Array>();
     const [uploading, setUploading] = useState<boolean>(false);
@@ -24,7 +23,6 @@ function useUploadFile()
 
         } catch(error: any) {
             setError(error.response.data)
-            setFailed(true);
         } 
     }, [loadedFile]);
 
@@ -38,7 +36,6 @@ function useUploadFile()
             });
         } catch(error: any) {
             setError(error.response.data);
-            setFailed(true);
         }
     }, [presignedUrl]);
 
@@ -46,7 +43,7 @@ function useUploadFile()
     {
         if (fileName.length === 0) return;
 
-        setFailed(false);
+        setError(null);
         setUploading(true);
 
         const reader = new FileReader();
@@ -55,13 +52,12 @@ function useUploadFile()
             const fileData = event.target.result;
             const byteArray = new Uint8Array(fileData);
             setloadedFile(byteArray);
-            console.log(byteArray);
         };
     
         reader.readAsArrayBuffer(fileName);
     }
 
-    return [loadFile, url, uploading, failed, error];
+    return [loadFile, url, uploading, error];
 }
 
 export default useUploadFile;

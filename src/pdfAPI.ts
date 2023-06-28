@@ -12,6 +12,8 @@ interface Links
     "remainingCredits": number;
 }
 
+
+
 export async function generateLink(){
     const headers = {
         'x-api-key': API_KEY,

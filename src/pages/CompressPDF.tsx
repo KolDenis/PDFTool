@@ -10,7 +10,7 @@ const CompressPDF = () => {
     const location = useLocation();
     const [toolInfo, setToolinfo] = useState(getInfoAbout(location.pathname));
     const [isFileByLink, setIsFileByLink] = useState<boolean>(false);
-    const [loadFile, url, uploading, failed, error] = useUploadFile();
+    const [loadFile, url, uploading, error] = useUploadFile();
     const [compressedFileUrl, setCompressedFileUrl] = useState<string>('');
 
     useEffect(()=>{
@@ -36,23 +36,33 @@ const CompressPDF = () => {
         } 
     }
 
+    function downloadFile(){
+        if(inputRef.current != null){
+            inputRef.current.click();
+        } 
+    }
+
     return (
         <div className='toolPage'>
             <div className='toolPageTitle'>{toolInfo.title}</div>
             <div className='toolPageButtons'>
-                {
-                    isFileByLink?
-                    <div className='toolPagePlaceInput'>
-                        <input type="text" className='toolPageInputURL' placeholder='url'/>
-                        <button  className='toolPageInputSubmit'>Підтвердити</button>
-                    </div>:
-                    <button className="toolPageChangeFile" onClick={changeFile}>Вибрати файл</button>
-                }
-                <button className="toolPageButtonType" onClick={changeType}>{isFileByLink?'f':'l'}</button>
+            {
+                compressedFileUrl === ''?
+                <>
+                    {
+                        isFileByLink?
+                        <div className='toolPagePlaceInput'>
+                            <input type="text" className='toolPageInputURL' placeholder='url'/>
+                            <button  className='toolPageInputSubmit'>Підтвердити</button>
+                        </div>:
+                        <button className="toolPageChangeFile" onClick={changeFile}>Вибрати файл</button>
+                    }
+                    <button className="toolPageButtonType" onClick={changeType}>{isFileByLink?'f':'l'}</button>
+                </>:
+                <a href={compressedFileUrl} className='toolPageChangeFile'>Завантажити файл</a>
+            }
             </div>
-
-            <input ref={inputRef} type='file' className="toolPageFile" style={{display: 'none'}} onChange={inputFileHandle}></input>\
-            <h1>{compressedFileUrl}</h1>
+            <input ref={inputRef} type='file' className="toolPageFile" style={{display: 'none'}} onChange={inputFileHandle}></input>
         </div>
     )
 }
