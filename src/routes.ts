@@ -1,7 +1,8 @@
 import { FC } from "react";
-import CompressPDF from "./pages/CompressPDF";
+import ToolPage from "./pages/ToolPage";
 import Main from "./pages/Main";
 import * as routes from'./toolRoutes';
+import ErrorPage from "./pages/Error";
 
 interface Page{
     path: string;
@@ -14,64 +15,68 @@ const publicRoutes : Page[] = [
         component: Main,
     },
     {
+        path: '/error',
+        component: ErrorPage,
+    },
+    {
         path: routes.routeCompressPDF,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routeSecurePDF,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routeOpenPDF,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routeNumberingPDF,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routeWatermarkPDF,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routeSignPDF,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routeSplitPDF,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routeCombinePDF,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routePDFtoJPG,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routeJPGtoPDF,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routePDFtoWord,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routeWordtoPDF,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routePDFtoPP,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routePPtoPDF,
-        component: CompressPDF,
+        component: ToolPage,
     },
     {
         path: routes.routePDFtoXLS,
-        component: CompressPDF,
+        component: ToolPage,
     },
 ];
 

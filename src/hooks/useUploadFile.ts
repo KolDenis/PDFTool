@@ -1,63 +1,103 @@
 import { useState, useEffect } from "react";
 import { generateLink, uploadFile } from '../pdfAPI';
 
-function useUploadFile()
+interface UploadedFile{
+    file: Uint8Array,
+    url?: string,
+    presignedUrl?: string,
+}
+
+function useUploadFile(): [(files: File[])=>Promise<void>, (string | undefined)[], boolean, any]
 {
     const [error, setError] = useState<any>(null);
-
-    const [loadedFile, setloadedFile] = useState<Uint8Array>();
+    const [UploadedFiles, setUploadedFile] = useState<UploadedFile[]>([]);
     const [uploading, setUploading] = useState<boolean>(false);
-    
-    const [presignedUrl, setPresignedUrl] = useState<string>('');
-    const [url, setUrl] = useState<string>('');
+    const [numberUploadedFiles, setNumberUploadedFiles] = useState<number>(0);
+    const [numberFiles, setNumberFiles] = useState<number>(0);
 
     useEffect(()=>{
-        if(!loadedFile) return;
+        if(!uploading) return;
 
-        try{
-            generateLink().then((res: any)=>{
-                setPresignedUrl(res.data.presignedUrl);
-                setUrl(res.data.url);
-                console.log(res.data.presignedUrl)
-            });
-
-        } catch(error: any) {
-            setError(error.response.data)
-        } 
-    }, [loadedFile]);
-
-     useEffect(()=>{
-        if(presignedUrl.length === 0) return;
-        if(!loadedFile) return;
-
-        try{
-            uploadFile(presignedUrl, loadedFile).then(()=>{
-                setUploading(false);
-            });
-        } catch(error: any) {
-            setError(error.response.data);
+        if(numberUploadedFiles === numberFiles){
+            setUploading(false);
         }
-    }, [presignedUrl]);
 
-    async function loadFile(fileName: any)
+    }, [numberUploadedFiles]);
+
+    useEffect(()=>{
+        console.log('asdf-------------------------');
+        console.log(numberFiles);
+        console.log(UploadedFiles.length);
+        console.log(UploadedFiles.filter((file)=>file.file && file.url && file.presignedUrl).length);
+        if(error){
+            setUploading(false);
+            return;
+        }
+
+        if(UploadedFiles.length != numberFiles) return;
+
+        if(UploadedFiles.filter((file)=>file.file && file.url && file.presignedUrl).length != numberFiles) return;
+
+        setNumberUploadedFiles(0);
+
+        UploadedFiles.map((file)=>{
+            console.log(file);
+            if(!file.presignedUrl) return;
+
+            
+            uploadFile(file.presignedUrl, file.file).then((res)=>{
+                if(res instanceof Error)
+                {
+                    setError(res);
+                    return;
+                }
+                    
+                setNumberUploadedFiles(numberUploadedFiles+1);
+            });
+        });
+    }, [UploadedFiles]);
+
+    async function loadFiles(files: File[])
     {
-        if (fileName.length === 0) return;
+        if (files.length === 0) return;
 
         setError(null);
         setUploading(true);
+        setNumberFiles(files.length);
+        //setUploadedFile([]);
 
-        const reader = new FileReader();
+        files.map((file:File)=>{
+            const reader = new FileReader();
         
-        reader.onload = (event: any) => {
-            const fileData = event.target.result;
-            const byteArray = new Uint8Array(fileData);
-            setloadedFile(byteArray);
-        };
-    
-        reader.readAsArrayBuffer(fileName);
+            reader.onload = (event: any) => {
+                const fileData = event.target.result;
+                const byteArray = new Uint8Array(fileData);
+
+                let upF:UploadedFile = {
+                    file: byteArray
+                }
+
+                generateLink().then((res)=>{
+                    if(res instanceof Error)
+                    {
+                        setError(res);
+                        return; 
+                    }
+
+                    upF = {
+                        ...upF,
+                        url: res.url,
+                        presignedUrl: res.presignedUrl,
+                    }
+                    setUploadedFile([...UploadedFiles, upF]);
+                });
+            };
+
+            reader.readAsArrayBuffer(file);
+        });
     }
 
-    return [loadFile, url, uploading, error];
+    return [loadFiles, UploadedFiles.map(file=>file.url), uploading, error];
 }
 
 export default useUploadFile;
